@@ -1,11 +1,15 @@
 var mongoose = require('mongoose');
 
 const activitySchema = new mongoose.Schema({
-  user: {
+  userId: {
     type: String,
     default: '',
   },
-  workspace: {
+  taskId: {
+    type: String,
+    default: '',
+  },
+  workspaceId: {
     type: String,
     default: '',
   },

@@ -5,26 +5,36 @@ var Activity = require("../models/Activity");
 /* GET users listing. */
 router.post("/getTracking", async function (req, res, next) {
   try {
+    const { workspaceId, taskId, userId } = req.body;
+
     const userActivities = await Activity.count({
-      user: req.body.user,
-      workspace: req.body.workspace,
+      userId: userId,
+      workspaceId: workspaceId,
+      taskId: taskId,
     });
 
-    res.send({trackingCount: userActivities});
+    res.send({
+      taskId: taskId,
+      workspaceId: workspaceId,
+      activityCount: userActivities,
+    });
   } catch (e) {
     console.log("ERROR: ", e);
   }
 });
 
-router.post("/tracking", function (req, res, next) {
+router.post("/tracking", async function (req, res, next) {
   try {
+    const { workspaceId, taskId, userId } = req.body;
+
     const activity = new Activity({
-      user: req.body.user,
-      workspace: req.body.workspace,
+      userId: userId,
+      workspaceId: workspaceId,
+      taskId: taskId,
     });
 
-    activity.save();
-    res.send({success: true});
+    await activity.save();
+    res.send({ success: true });
   } catch (e) {
     console.log("ERROR: ", e);
   }
